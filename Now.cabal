@@ -3,8 +3,8 @@
 
 name:                Now
 version:             0.1.0.0
-synopsis:            Now is a game where success is measured using your concentration
--- description:         
+synopsis:            A game tying success and concentration
+description:         Now is a game where success is measured using your concentration
 homepage:            https://github.com/srid/Now
 license:             MIT
 license-file:        LICENSE
@@ -17,6 +17,7 @@ extra-source-files:  README.md
 cabal-version:       >=1.10
 
 executable Now
+  ghc-options:         -Wall
   main-is:             Main.hs
   -- other-modules:       
   -- other-extensions:    
