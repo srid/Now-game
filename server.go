@@ -16,11 +16,14 @@ func (s MindState) GetPercent() int {
 	return int(s.Value*100 + 0.5)
 }
 
-type Stream chan MindState
-
 func runWebServer() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "game.html")
+		data, err := Asset("build/elm/Game.html")
+		if err != nil {
+			fmt.Fprintf(w, "Game.html not found in executable")
+		} else {
+			fmt.Fprintf(w, "%s", string(data))
+		}
 	})
 	http.ListenAndServe(":8000", nil)
 }
@@ -30,7 +33,7 @@ func main() {
 	// osc.Server starts a UDP server
 	server := &osc.Server{Addr: addr}
 
-	stream := make(Stream)
+	stream := make(chan MindState)
 
 	server.Handle("/muse/elements/experimental/concentration", func(msg *osc.Message) {
 		value := msg.Arguments[0].(float32)

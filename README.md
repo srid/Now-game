@@ -2,7 +2,7 @@
 Now is a game where success is measured using your concentration.
 
 # Status
-I just started working on this project; early stages.
+I just started working on this project; still in early stages.
 
 # Key ideas
 - Uses brain scanner to detect concentration levels
@@ -22,3 +22,12 @@ Install the prerequisites:
 * Go 1.4+
 * [Elm](http://www.elm-lang.org)
 
+Build and run the server:
+
+```
+make all run
+```
+
+Open the web app at http://localhost:8000
+
+Want to help? Ideas? Get in touch at srid@srid.ca

@@ -3,11 +3,14 @@ PROGNAME := Now
 all:
 	go get -d -v
 	gofmt -w .
+	elm-make Game.elm --output ./build/elm/Game.html
+
+	go get github.com/jteeuwen/go-bindata/...
+	go-bindata -o Game.go build/elm/
 	go build -v -o ./build/Now
-	elm-make game.elm --output ./build/game.html
 
 run:
 	./build/Now
 
 clean:
-	rm -f ./build
+	rm -rf ./build
