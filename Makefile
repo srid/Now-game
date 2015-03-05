@@ -1,9 +1,9 @@
 PROGNAME := Now
 
 all:
-	cabal sandbox init
-	cabal install --only-dependencies
-	cabal build
+	go get -d -v
+	go build -v
+	./Now
 
-run:
-	./dist/build/${PROGNAME}/${PROGNAME}
+clean:
+	rm -f ./Now
