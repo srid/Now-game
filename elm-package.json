@@ -1,0 +1,13 @@
+{
+    "version": "1.0.0",
+    "summary": "Now is a game where success is measured using your concentration",
+    "repository": "https://github.com/srid/Now.git",
+    "license": "MIT",
+    "source-directories": [
+        "."
+    ],
+    "exposed-modules": [],
+    "dependencies": {
+        "elm-lang/core": "1.1.1 <= v < 2.0.0"
+    }
+}

@@ -14,3 +14,11 @@ I just started working on this project; early stages.
 - Go: server-side, and for receiving OSC stream from Muse headset
 - Elm: client-side game engine and renderer
 - muse-io: from Muse SDK (may run on a different machine)
+
+# HACKING
+
+Install the prerequisites:
+
+* Go 1.4+
+* [Elm](http://www.elm-lang.org)
+
