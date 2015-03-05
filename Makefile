@@ -2,6 +2,7 @@ PROGNAME := Now
 
 all:
 	go get -d -v
+	gofmt -w .
 	go build -v -o ./build/Now
 	elm-make game.elm --output ./build/game.html
 
