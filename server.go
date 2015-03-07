@@ -20,11 +20,12 @@ func runWebServer() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		data, err := Asset("build/elm/Game.html")
 		if err != nil {
-			fmt.Fprintf(w, "Game.html not found in executable")
+			fmt.Fprintf(w, "ERROR: Game.html missing in executable")
 		} else {
 			fmt.Fprintf(w, "%s", string(data))
 		}
 	})
+	fmt.Printf("Web server running at: http://localhost:8000/\n")
 	http.ListenAndServe(":8000", nil)
 }
 
@@ -53,6 +54,6 @@ func main() {
 		}
 	}()
 
-	println("Listening.", addr)
+	fmt.Printf("Listening at Muse OSC url: osc.udp://%s\n", addr)
 	server.ListenAndServe()
 }
