@@ -1,7 +1,8 @@
 import Graphics.Element (..)
 import Text (..)
+import WebSocket
+import Signal
 
+helper = WebSocket.connect "ws://localhost:8000/dummy"    
 
-main : Element
-main =
-  plainText "Hello, World!"
+main = Signal.map plainText (helper (Signal.constant "start"))

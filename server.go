@@ -3,7 +3,9 @@ package main
 import (
 	"fmt"
 	"github.com/hypebeast/go-osc/osc"
+	"golang.org/x/net/websocket"
 	"net/http"
+	"time"
 )
 
 type MindState struct {
@@ -16,7 +18,15 @@ func (s MindState) GetPercent() int {
 	return int(s.Value*100 + 0.5)
 }
 
+func dummyStreamHandler(ws *websocket.Conn) {
+	for {
+		fmt.Fprintf(ws, "Time now is: %s\n", time.Now().Format("2006-01-02 15:04:05"))
+		time.Sleep(time.Second)
+	}
+}
+
 func runWebServer() {
+	http.Handle("/dummy", websocket.Handler(dummyStreamHandler))
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		data, err := Asset("build/elm/Game.html")
 		if err != nil {
