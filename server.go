@@ -5,7 +5,6 @@ import (
 	"github.com/hypebeast/go-osc/osc"
 	"golang.org/x/net/websocket"
 	"net/http"
-	"time"
 )
 
 type MindState struct {
@@ -18,10 +17,16 @@ func (s MindState) GetPercent() int {
 	return int(s.Value*100 + 0.5)
 }
 
+var MindStream chan MindState
+
+func init() {
+	MindStream = make(chan MindState)
+}
+
 func dummyStreamHandler(ws *websocket.Conn) {
-	for {
-		fmt.Fprintf(ws, "Time now is: %s\n", time.Now().Format("2006-01-02 15:04:05"))
-		time.Sleep(time.Second)
+	for state := range MindStream {
+		fmt.Printf("%15v => %3v%% (%v)\n", state.Quality, state.GetPercent(), state.Value)
+		fmt.Fprintf(ws, "%15v => %3v%% (%v)\n", state.Quality, state.GetPercent(), state.Value)
 	}
 }
 
@@ -44,25 +49,17 @@ func main() {
 	// osc.Server starts a UDP server
 	server := &osc.Server{Addr: addr}
 
-	stream := make(chan MindState)
-
 	server.Handle("/muse/elements/experimental/concentration", func(msg *osc.Message) {
 		value := msg.Arguments[0].(float32)
-		stream <- MindState{"concentration", value}
+		MindStream <- MindState{"concentration", value}
 	})
 
 	server.Handle("/muse/elements/experimental/mellow", func(msg *osc.Message) {
 		value := msg.Arguments[0].(float32)
-		stream <- MindState{"mellow", value}
+		MindStream <- MindState{"mellow", value}
 	})
 
 	go runWebServer()
-
-	go func() {
-		for state := range stream {
-			fmt.Printf("%15v => %3v%% (%v)\n", state.Quality, state.GetPercent(), state.Value)
-		}
-	}()
 
 	fmt.Printf("Listening at Muse OSC url: osc.udp://%s\n", addr)
 	server.ListenAndServe()
